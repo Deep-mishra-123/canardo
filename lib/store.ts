@@ -63,7 +63,10 @@ async function readLocalDb(): Promise<LocalDatabase> {
     return parsed;
   } catch {
     const fresh: LocalDatabase = { products: cloneSeed(), orders: [], messages: [] };
-    await writeLocalDb(fresh);
+    // Serverless filesystems (Vercel) are read-only, so never persist locally in production.
+    if (process.env.NODE_ENV !== "production") {
+      await writeLocalDb(fresh);
+    }
     return fresh;
   }
 }
@@ -79,7 +82,9 @@ function mutateLocalDb<T>(mutation: (db: LocalDatabase) => T | Promise<T>): Prom
   const operation = localQueue.then(async () => {
     const db = await readLocalDb();
     const result = await mutation(db);
-    await writeLocalDb(db);
+    if (process.env.NODE_ENV !== "production") {
+      await writeLocalDb(db);
+    }
     return result;
   });
   localQueue = operation.catch(() => undefined);

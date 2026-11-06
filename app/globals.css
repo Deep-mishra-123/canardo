@@ -1,0 +1,208 @@
+@import "tailwindcss";
+
+@theme {
+  --color-forest: #123d2b;
+  --color-forest-deep: #0a2a1d;
+  --color-forest-soft: #1d513a;
+  --color-mint: #dcefe3;
+  --color-mint-soft: #eef7f0;
+  --color-offwhite: #f8faf8;
+  --color-charcoal: #252b27;
+  --color-stone: #656f67;
+  --color-line: #e2e9e3;
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-fraunces), Georgia, "Times New Roman", serif;
+  --shadow-card: 0 24px 70px -38px rgba(18, 61, 43, 0.32);
+  --shadow-float: 0 30px 80px -32px rgba(10, 42, 29, 0.38);
+  --ease-luxury: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+* {
+  border-color: var(--color-line);
+}
+
+html {
+  scroll-behavior: smooth;
+  background: var(--color-offwhite);
+}
+
+body {
+  background: var(--color-offwhite);
+  color: var(--color-charcoal);
+  font-family: var(--font-sans);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--color-forest);
+  color: white;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-forest);
+  outline-offset: 3px;
+}
+
+button,
+a,
+input,
+select,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:not(:disabled),
+[role="button"]:not(:disabled) {
+  cursor: pointer;
+}
+
+.container-page {
+  width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .container-page {
+    padding-inline: 2.5rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container-page {
+    padding-inline: 4rem;
+  }
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-size: 0.67rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.eyebrow::before {
+  content: "";
+  width: 1.75rem;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.55;
+}
+
+.display-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.035em;
+  line-height: 0.98;
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+.hairline {
+  height: 1px;
+  width: 100%;
+  background: var(--color-line);
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.grain {
+  position: relative;
+}
+
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 0.8s var(--ease-luxury),
+    transform 0.8s var(--ease-luxury);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.product-image-shell {
+  background:
+    radial-gradient(circle at 50% 42%, rgba(255, 255, 255, 0.95), transparent 62%),
+    linear-gradient(145deg, #f4f8f3 0%, #edf4ee 56%, #e3eee5 100%);
+}
+
+.admin-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #cdd8cf transparent;
+}
+
+@keyframes soft-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-soft-in {
+  animation: soft-in 0.35s var(--ease-luxury) both;
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-toast-in {
+  animation: toast-in 0.3s var(--ease-luxury) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
